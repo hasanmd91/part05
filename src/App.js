@@ -26,7 +26,7 @@ const App = () => {
 
   useEffect(() => {
     blogService.getAll().then((blogs) => setBlogs(blogs));
-  }, []);
+  }, [blogs]);
 
   const handleLogin = async (event) => {
     event.preventDefault();
@@ -69,7 +69,11 @@ const App = () => {
             </button>
           </p>
 
-          <CreateBlog setErrorMessage={setErrorMessage} />
+          <CreateBlog
+            setErrorMessage={setErrorMessage}
+            blogs={blogs}
+            setBlogs={setBlogs}
+          />
           {blogs.map((blog) => (
             <Blog key={blog.id} blog={blog} user={user} />
           ))}
