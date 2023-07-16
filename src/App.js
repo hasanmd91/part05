@@ -7,7 +7,8 @@ import LoginForm from './components/LoginForm';
 import CreateBlog from './components/CreateBlog';
 
 const App = () => {
-  const [errorMessage, setErrorMessage] = useState(null);
+  const [notification, setNotification] = useState(null);
+  const [notificationType, setNotificationType] = useState(null);
   const [blogs, setBlogs] = useState([]);
 
   const [username, setUsername] = useState('');
@@ -38,14 +39,15 @@ const App = () => {
       setUsername('');
       setPassword('');
     } catch (error) {
-      setErrorMessage('wrong crdential');
-      setTimeout(() => setErrorMessage(null), 5000);
+      setNotificationType('error');
+      setNotification('wrong username or password');
+      setTimeout(() => setNotification(null), 5000);
     }
   };
 
   return (
     <div>
-      <Notification error={errorMessage} />
+      <Notification notification={notification} type={notificationType} />
       {user === null ? (
         <LoginForm
           username={username}
@@ -70,7 +72,8 @@ const App = () => {
           </p>
 
           <CreateBlog
-            setErrorMessage={setErrorMessage}
+            setNotificationType={setNotificationType}
+            setNotification={setNotification}
             blogs={blogs}
             setBlogs={setBlogs}
           />

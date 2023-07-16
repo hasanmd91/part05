@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import blogService from '../services/blogs';
 
-const CreateBlog = ({ setErrorMessage, setBlogs, blogs }) => {
+const CreateBlog = ({ setNotification, setBlogs, setNotificationType }) => {
   const [title, setTitle] = useState('');
   const [author, setAuthor] = useState('');
   const [url, setUrl] = useState('');
@@ -9,15 +9,36 @@ const CreateBlog = ({ setErrorMessage, setBlogs, blogs }) => {
   const submithandeler = async (event) => {
     event.preventDefault();
     try {
-      await blogService.create({ title, author, url });
+      const newBlog = await blogService.create({ title, author, url });
       const updatedBlogs = await blogService.getAll();
-      setBlogs(updatedBlogs);
+      setNotificationType('success ');
+      setNotification(
+        `A new blog ${newBlog.title} by ${newBlog.author} is added`
+      );
+      setTimeout(() => {
+        setNotification(null);
+        setNotificationType(null);
+      }, 5000);
 
+      setBlogs(updatedBlogs);
       setTitle('');
       setAuthor('');
       setUrl('');
     } catch (error) {
-      setErrorMessage(error.message);
+      setNotificationType('error');
+
+      if (error.response) {
+        setNotification(error.response.data.error);
+      } else if (error.request) {
+        setNotification('something went wrong');
+      } else {
+        setNotification(error.message);
+      }
+
+      setTimeout(() => {
+        setNotification(null);
+        setNotificationType(null);
+      }, 5000);
     }
   };
 
