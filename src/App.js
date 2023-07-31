@@ -27,7 +27,7 @@ const App = () => {
 
   useEffect(() => {
     blogService.getAll().then((blogs) => setBlogs(blogs));
-  }, [blogs]);
+  }, []);
 
   const handleLogin = async (event) => {
     event.preventDefault();
@@ -45,6 +45,7 @@ const App = () => {
     }
   };
 
+  console.log(user);
   return (
     <div>
       <Notification notification={notification} type={notificationType} />
@@ -60,7 +61,7 @@ const App = () => {
         <div>
           <h2>blogs</h2>
           <p>
-            {user.username} is Logged in
+            {user.name} is Logged in
             <button
               onClick={() => {
                 setUser(null);

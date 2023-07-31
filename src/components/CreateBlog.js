@@ -6,39 +6,41 @@ const CreateBlog = ({ setNotification, setBlogs, setNotificationType }) => {
   const [author, setAuthor] = useState('');
   const [url, setUrl] = useState('');
 
+  const createNotification = (type, error) => {
+    setNotificationType(type);
+    setNotification(error);
+
+    setTimeout(() => {
+      setNotification(null);
+      setNotificationType(null);
+    }, 5000);
+  };
+
+  const clearform = () => {
+    setTitle('');
+    setAuthor('');
+    setUrl('');
+  };
+
   const submithandeler = async (event) => {
     event.preventDefault();
     try {
       const newBlog = await blogService.create({ title, author, url });
       const updatedBlogs = await blogService.getAll();
-      setNotificationType('success ');
-      setNotification(
+
+      createNotification(
+        'success',
         `A new blog ${newBlog.title} by ${newBlog.author} is added`
       );
-      setTimeout(() => {
-        setNotification(null);
-        setNotificationType(null);
-      }, 5000);
 
       setBlogs(updatedBlogs);
-      setTitle('');
-      setAuthor('');
-      setUrl('');
+      clearform();
     } catch (error) {
-      setNotificationType('error');
-
       if (error.response) {
-        setNotification(error.response.data.error);
-      } else if (error.request) {
-        setNotification('something went wrong');
+        createNotification('error', error.response.data);
       } else {
-        setNotification(error.message);
+        createNotification('error', 'something went wrong');
       }
-
-      setTimeout(() => {
-        setNotification(null);
-        setNotificationType(null);
-      }, 5000);
     }
   };
 
