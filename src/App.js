@@ -1,6 +1,6 @@
+import { useState, useEffect, useRef } from 'react';
 import Notification from './components/Notification';
 import Blog from './components/Blog';
-import { useState, useEffect } from 'react';
 import blogService from './services/blogs';
 import loginService from './services/login';
 import LoginForm from './components/LoginForm';
@@ -14,6 +14,8 @@ const App = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [user, setUser] = useState(null);
+
+  const newBlogRef = useRef();
 
   useEffect(() => {
     const loggedUserJson = window.localStorage.getItem('BlogUser');
@@ -29,6 +31,12 @@ const App = () => {
     blogService.getAll().then((blogs) => setBlogs(blogs));
   }, []);
 
+  const clearNotification = () => {
+    setTimeout(() => {
+      setNotification(null);
+    }, 5000);
+  };
+
   //Login Funtion
 
   const handleLogin = async (event) => {
@@ -42,7 +50,8 @@ const App = () => {
       setPassword('');
     } catch (error) {
       setNotification({ text: 'wrong username or password', error: true });
-      setTimeout(() => setNotification(null), 5000);
+    } finally {
+      clearNotification();
     }
   };
 
@@ -50,20 +59,27 @@ const App = () => {
 
   const addBlog = async (newObject) => {
     try {
+      console.log('Adding blog...');
       const newBlog = await blogService.create(newObject);
+      console.log('Blog created:', newBlog);
       setBlogs(blogs.concat(newBlog));
       setNotification({
         text: `A new blog ${newBlog.title} by ${newBlog.author} is added`,
         error: false,
       });
+      newBlogRef.current.toggleVisibility();
     } catch (error) {
+      console.log('Error while adding blog:', error);
       if (error?.response?.data) {
         setNotification({ text: error.response.data, error: true });
       } else {
         setNotification({ text: 'something went wrong', error: true });
       }
+    } finally {
+      clearNotification();
     }
   };
+
   return (
     <div>
       <Notification notification={notification} />
@@ -92,7 +108,9 @@ const App = () => {
             </button>
           </p>
 
-          <Newblog createBlog={addBlog} />
+          <Togglable buttonLabel={'Create New'} ref={newBlogRef}>
+            <Newblog createBlog={addBlog} />
+          </Togglable>
           {blogs.map((blog) => (
             <Blog key={blog.id} blog={blog} user={user} />
           ))}
