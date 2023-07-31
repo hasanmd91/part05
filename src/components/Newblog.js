@@ -1,20 +1,9 @@
 import React, { useState } from 'react';
-import blogService from '../services/blogs';
 
-const CreateBlog = ({ setNotification, setBlogs, setNotificationType }) => {
+const Newblog = ({ createBlog }) => {
   const [title, setTitle] = useState('');
   const [author, setAuthor] = useState('');
   const [url, setUrl] = useState('');
-
-  const createNotification = (type, error) => {
-    setNotificationType(type);
-    setNotification(error);
-
-    setTimeout(() => {
-      setNotification(null);
-      setNotificationType(null);
-    }, 5000);
-  };
 
   const clearform = () => {
     setTitle('');
@@ -22,26 +11,10 @@ const CreateBlog = ({ setNotification, setBlogs, setNotificationType }) => {
     setUrl('');
   };
 
-  const submithandeler = async (event) => {
+  const submithandeler = (event) => {
     event.preventDefault();
-    try {
-      const newBlog = await blogService.create({ title, author, url });
-      const updatedBlogs = await blogService.getAll();
-
-      createNotification(
-        'success',
-        `A new blog ${newBlog.title} by ${newBlog.author} is added`
-      );
-
-      setBlogs(updatedBlogs);
-      clearform();
-    } catch (error) {
-      if (error.response) {
-        createNotification('error', error.response.data);
-      } else {
-        createNotification('error', 'something went wrong');
-      }
-    }
+    createBlog({ title, author, url });
+    clearform();
   };
 
   return (
@@ -82,4 +55,4 @@ const CreateBlog = ({ setNotification, setBlogs, setNotificationType }) => {
   );
 };
 
-export default CreateBlog;
+export default Newblog;
