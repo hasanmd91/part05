@@ -5,8 +5,6 @@ const Notification = ({ notification }) => {
     return null;
   }
 
-  console.log(notification);
-
   return (
     <h2 className={notification.error ? 'error' : 'success'}>
       {notification.text}
