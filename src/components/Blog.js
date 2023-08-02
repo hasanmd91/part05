@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-const Blog = ({ blog, user }) => {
+const Blog = ({ blog }) => {
   const blogStyle = {
     padding: 10,
     border: 'solid',
@@ -11,7 +11,6 @@ const Blog = ({ blog, user }) => {
 
   const [show, setShow] = useState(false);
 
-  console.log(blog);
   return (
     <div style={blogStyle}>
       {blog.title} <strong>{blog.author}</strong>

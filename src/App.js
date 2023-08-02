@@ -59,9 +59,7 @@ const App = () => {
 
   const addBlog = async (newObject) => {
     try {
-      console.log('Adding blog...');
       const newBlog = await blogService.create(newObject);
-      console.log('Blog created:', newBlog);
       setBlogs(blogs.concat(newBlog));
       setNotification({
         text: `A new blog ${newBlog.title} by ${newBlog.author} is added`,
@@ -69,7 +67,6 @@ const App = () => {
       });
       newBlogRef.current.toggleVisibility();
     } catch (error) {
-      console.log('Error while adding blog:', error);
       if (error?.response?.data) {
         setNotification({ text: error.response.data, error: true });
       } else {
