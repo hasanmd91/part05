@@ -1,8 +1,8 @@
 import { useState, useEffect, useRef } from 'react';
 import Notification from './components/Notification';
 import Blog from './components/Blog';
-import blogService from './services/blogs';
-import loginService from './services/login';
+import blogService from './services/serviceBlogs';
+import loginService from './/services/serviceLogin';
 import LoginForm from './components/LoginForm';
 import Newblog from './components/Newblog';
 import Togglable from './components/Togglable';
@@ -28,7 +28,10 @@ const App = () => {
   }, []);
 
   useEffect(() => {
-    blogService.getAll().then((blogs) => setBlogs(blogs));
+    blogService.getAll().then((blogs) => {
+      const sortedBlogs = blogs.sort();
+      setBlogs(sortedBlogs);
+    });
   }, []);
 
   const clearNotification = () => {
@@ -60,6 +63,7 @@ const App = () => {
   const addBlog = async (newObject) => {
     try {
       const newBlog = await blogService.create(newObject);
+      newBlog.user = user;
       setBlogs(blogs.concat(newBlog));
       setNotification({
         text: `A new blog ${newBlog.title} by ${newBlog.author} is added`,
@@ -75,6 +79,13 @@ const App = () => {
     } finally {
       clearNotification();
     }
+  };
+
+  const deleteBlog = async (id) => {
+    const filteredBlogs = blogs.filter((blog) => blog.id !== id);
+    setBlogs(filteredBlogs);
+
+    await blogService.deleteBlog(id);
   };
 
   return (
@@ -108,9 +119,16 @@ const App = () => {
           <Togglable buttonLabel={'Create New'} ref={newBlogRef}>
             <Newblog createBlog={addBlog} />
           </Togglable>
-          {blogs.map((blog) => (
-            <Blog key={blog.id} blog={blog} user={user} />
-          ))}
+          {blogs
+            .sort((a1, a2) => a2.likes - a1.likes)
+            .map((blog) => (
+              <Blog
+                key={blog.id}
+                blogs={blog}
+                user={user}
+                deleteBlog={deleteBlog}
+              />
+            ))}
         </div>
       )}
     </div>
