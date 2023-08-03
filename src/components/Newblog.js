@@ -1,58 +1,58 @@
-import React, { useState } from 'react';
+import React, { useState } from 'react'
 
 const Newblog = ({ createBlog }) => {
-  const [title, setTitle] = useState('');
-  const [author, setAuthor] = useState('');
-  const [url, setUrl] = useState('');
+  const [title, setTitle] = useState('')
+  const [author, setAuthor] = useState('')
+  const [url, setUrl] = useState('')
 
   const clearform = () => {
-    setTitle('');
-    setAuthor('');
-    setUrl('');
-  };
+    setTitle('')
+    setAuthor('')
+    setUrl('')
+  }
 
   const submithandeler = (event) => {
-    event.preventDefault();
-    createBlog({ title, author, url });
-    clearform();
-  };
+    event.preventDefault()
+    createBlog({ title, author, url })
+    clearform()
+  }
 
   return (
     <div>
       <h2> Create new </h2>
       <form onSubmit={submithandeler}>
         <div>
-          <label htmlFor='title'> Title</label>
+          <label htmlFor="title"> Title</label>
           <input
-            id='title'
-            type='text'
+            id="title"
+            type="text"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
           />
         </div>
         <div>
-          <label htmlFor='author'> Author</label>
+          <label htmlFor="author"> Author</label>
           <input
-            id='author'
-            type='text'
+            id="author"
+            type="text"
             value={author}
             onChange={(e) => setAuthor(e.target.value)}
           />
         </div>
         <div>
-          <label htmlFor='url'> Url</label>
+          <label htmlFor="url"> Url</label>
           <input
-            id='url'
-            type='text'
+            id="url"
+            type="text"
             value={url}
             onChange={(e) => setUrl(e.target.value)}
           />
         </div>
 
-        <button type='submit'> Create</button>
+        <button type="submit"> Create</button>
       </form>
     </div>
-  );
-};
+  )
+}
 
-export default Newblog;
+export default Newblog

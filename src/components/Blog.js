@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import blogService from '../services/serviceBlogs';
+import { useState } from 'react'
+import blogService from '../services/serviceBlogs'
 
 const Blog = ({ blogs, deleteBlog, user }) => {
   const blogStyle = {
@@ -8,32 +8,32 @@ const Blog = ({ blogs, deleteBlog, user }) => {
     borderWidth: 1,
     marginBottom: 5,
     minHeight: 50,
-  };
+  }
 
   const buttonStyle = {
     backgroundColor: 'gray',
     margin: 3,
-  };
+  }
 
-  const [show, setShow] = useState(false);
-  const [blog, setBlog] = useState(blogs);
+  const [show, setShow] = useState(false)
+  const [blog, setBlog] = useState(blogs)
 
   const updateLike = async () => {
     const updatedBlog = {
       ...blog,
       likes: blog.likes + 1,
-    };
+    }
 
-    setBlog(updatedBlog);
-    await blogService.upDate(blog.id, updatedBlog);
-  };
+    setBlog(updatedBlog)
+    await blogService.upDate(blog.id, updatedBlog)
+  }
 
   const deleteHandeler = () => {
     if (window.confirm(`Remove blog ${blog.title} by ${blog.author}`)) {
-      deleteBlog(blog.id);
+      deleteBlog(blog.id)
     }
-    return;
-  };
+    return
+  }
 
   return (
     <div style={blogStyle}>
@@ -47,7 +47,7 @@ const Blog = ({ blogs, deleteBlog, user }) => {
       {show && (
         <div style={{ listStyle: 'none', lineHeight: 1 }}>
           <li>
-            <a href={blog.url} target='blank'>
+            <a href={blog.url} target="blank">
               {blog.url}
             </a>
           </li>
@@ -59,7 +59,7 @@ const Blog = ({ blogs, deleteBlog, user }) => {
         </div>
       )}
     </div>
-  );
-};
+  )
+}
 
-export default Blog;
+export default Blog
