@@ -1,11 +1,11 @@
-import { useState, useEffect, useRef } from 'react'
-import Notification from './components/Notification'
-import Blog from './components/Blog'
+import { useEffect, useRef, useState } from 'react'
+import Blog from './components/Blog/Blog'
+import LoginForm from './components/LoginForm/LoginForm'
+import Newblog from './components/Newblog/Newblog'
+import Notification from './components/Notification/Notification'
+import Togglable from './components/Togglable/Togglable'
 import blogService from './services/serviceBlogs'
-import loginService from './/services/serviceLogin'
-import LoginForm from './components/LoginForm'
-import Newblog from './components/Newblog'
-import Togglable from './components/Togglable'
+import loginService from './services/serviceLogin'
 
 const App = () => {
   const [notification, setNotification] = useState(null)
