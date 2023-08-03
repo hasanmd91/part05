@@ -36,7 +36,7 @@ const Blog = ({ blogs, deleteBlog, user, testId }) => {
   };
 
   return (
-    <div style={blogStyle} data-testId={testId}>
+    <div style={blogStyle} data-testid={testId}>
       {blog.title} <strong>{blog.author}</strong>
       <button onClick={() => setShow(!show)}>{show ? 'Hide' : 'Show'}</button>
       {blog.user.id === user.id && (

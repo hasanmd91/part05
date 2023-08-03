@@ -1,8 +1,7 @@
 import '@testing-library/jest-dom/extend-expect';
-import { render, within } from '@testing-library/react';
-import React from 'react';
-import Blog from './Blog';
+import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import Blog from './Blog';
 
 const mockDeleteBlog = jest.fn();
 
@@ -43,7 +42,7 @@ describe('Blog component', () => {
 
   test('renders blogs URL and number of likes ', async () => {
     const div = container.queryByTestId('blogs');
-    const showButton = within(div).getByRole('button', { name: /Show/i });
+    const showButton = screen.getByRole('button', { name: /Show/i });
     const user = userEvent.setup();
     await user.click(showButton);
 
@@ -52,13 +51,12 @@ describe('Blog component', () => {
   });
 
   test('Clicking the like button invoke onClick function', async () => {
-    const div = container.queryByTestId('blogs');
-    const showButton = within(div).getByRole('button', { name: /Show/i });
+    const showButton = screen.getByRole('button', { name: /Show/i });
     const user = userEvent.setup();
     await user.click(showButton);
     const mockFunction = jest.fn();
 
-    const likeButton = within(div).getByRole('button', { name: /Like/i });
+    const likeButton = screen.getByRole('button', { name: /Like/i });
     likeButton.onclick = mockFunction;
     await user.click(likeButton);
     await user.click(likeButton);
