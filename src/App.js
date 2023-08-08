@@ -1,92 +1,92 @@
-import { useEffect, useRef, useState } from 'react'
-import Blog from './components/Blog/Blog'
-import LoginForm from './components/LoginForm/LoginForm'
-import Newblog from './components/Newblog/Newblog'
-import Notification from './components/Notification/Notification'
-import Togglable from './components/Togglable/Togglable'
-import blogService from './services/serviceBlogs'
-import loginService from './services/serviceLogin'
+import { useEffect, useRef, useState } from 'react';
+import Blog from './components/Blog/Blog';
+import LoginForm from './components/LoginForm/LoginForm';
+import Newblog from './components/Newblog/Newblog';
+import Notification from './components/Notification/Notification';
+import Togglable from './components/Togglable/Togglable';
+import blogService from './services/serviceBlogs';
+import loginService from './services/serviceLogin';
 
 const App = () => {
-  const [notification, setNotification] = useState(null)
-  const [blogs, setBlogs] = useState([])
+  const [notification, setNotification] = useState(null);
+  const [blogs, setBlogs] = useState([]);
 
-  const [username, setUsername] = useState('')
-  const [password, setPassword] = useState('')
-  const [user, setUser] = useState(null)
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [user, setUser] = useState(null);
 
-  const newBlogRef = useRef()
+  const newBlogRef = useRef();
 
   useEffect(() => {
-    const loggedUserJson = window.localStorage.getItem('BlogUser')
+    const loggedUserJson = window.localStorage.getItem('BlogUser');
 
     if (loggedUserJson) {
-      const user = JSON.parse(loggedUserJson)
-      setUser(user)
-      blogService.setToken(user.token)
+      const user = JSON.parse(loggedUserJson);
+      setUser(user);
+      blogService.setToken(user.token);
     }
-  }, [])
+  }, []);
 
   useEffect(() => {
     blogService.getAll().then((blogs) => {
-      const sortedBlogs = blogs.sort()
-      setBlogs(sortedBlogs)
-    })
-  }, [])
+      const sortedBlogs = blogs.sort();
+      setBlogs(sortedBlogs);
+    });
+  }, []);
 
   const clearNotification = () => {
     setTimeout(() => {
-      setNotification(null)
-    }, 5000)
-  }
+      setNotification(null);
+    }, 5000);
+  };
 
   //Login Funtion
 
   const handleLogin = async (event) => {
-    event.preventDefault()
+    event.preventDefault();
     try {
-      const user = await loginService.login({ username, password })
-      setUser(user)
-      window.localStorage.setItem('BlogUser', JSON.stringify(user))
-      blogService.setToken(user.token)
-      setUsername('')
-      setPassword('')
+      const user = await loginService.login({ username, password });
+      setUser(user);
+      window.localStorage.setItem('BlogUser', JSON.stringify(user));
+      blogService.setToken(user.token);
+      setUsername('');
+      setPassword('');
     } catch (error) {
-      setNotification({ text: 'wrong username or password', error: true })
+      setNotification({ text: 'wrong username or password', error: true });
     } finally {
-      clearNotification()
+      clearNotification();
     }
-  }
+  };
 
   // New blog adding fucntion
 
   const addBlog = async (newObject) => {
     try {
-      const newBlog = await blogService.create(newObject)
-      newBlog.user = user
-      setBlogs(blogs.concat(newBlog))
+      const newBlog = await blogService.create(newObject);
+      newBlog.user = user;
+      setBlogs(blogs.concat(newBlog));
       setNotification({
         text: `A new blog ${newBlog.title} by ${newBlog.author} is added`,
         error: false,
-      })
-      newBlogRef.current.toggleVisibility()
+      });
+      newBlogRef.current.toggleVisibility();
     } catch (error) {
       if (error.response.data) {
-        setNotification({ text: error.response.data, error: true })
+        setNotification({ text: error.response.data, error: true });
       } else {
-        setNotification({ text: 'something went wrong', error: true })
+        setNotification({ text: 'something went wrong', error: true });
       }
     } finally {
-      clearNotification()
+      clearNotification();
     }
-  }
+  };
 
   const deleteBlog = async (id) => {
-    const filteredBlogs = blogs.filter((blog) => blog.id !== id)
-    setBlogs(filteredBlogs)
+    const filteredBlogs = blogs.filter((blog) => blog.id !== id);
+    setBlogs(filteredBlogs);
 
-    await blogService.deleteBlog(id)
-  }
+    await blogService.deleteBlog(id);
+  };
 
   return (
     <div>
@@ -108,8 +108,8 @@ const App = () => {
             {user.name} is Logged in
             <button
               onClick={() => {
-                setUser(null)
-                localStorage.removeItem('BlogUser')
+                setUser(null);
+                localStorage.removeItem('BlogUser');
               }}
             >
               LogOut
@@ -131,8 +131,9 @@ const App = () => {
             ))}
         </div>
       )}
+      <p>Helsinki university full stack open course 2023</p>
     </div>
-  )
-}
+  );
+};
 
-export default App
+export default App;
