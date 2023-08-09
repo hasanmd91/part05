@@ -24,6 +24,7 @@ const Newblog = ({ createBlog }) => {
         <div>
           <label htmlFor='title'> Title</label>
           <input
+            name='title'
             id='title'
             type='text'
             value={title}
