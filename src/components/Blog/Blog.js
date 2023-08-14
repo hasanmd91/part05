@@ -47,7 +47,7 @@ const Blog = ({ blogs, deleteBlog, user, testId }) => {
       {show && (
         <div style={{ listStyle: 'none', lineHeight: 1 }}>
           <li>
-            <a href={blog.url} target='blank'>
+            <a href={blog.url} target="blank">
               {blog.url}
             </a>
           </li>

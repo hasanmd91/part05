@@ -6,7 +6,11 @@ module.exports = {
     'jest/globals': true,
     'cypress/globals': true,
   },
-  extends: ['eslint:recommended', 'plugin:react/recommended'],
+  extends: [
+    'plugin:react/recommended',
+    'eslint:recommended',
+    'plugin:prettier/recommended',
+  ],
   parserOptions: {
     ecmaFeatures: {
       jsx: true,
@@ -14,18 +18,34 @@ module.exports = {
     ecmaVersion: 2018,
     sourceType: 'module',
   },
-  plugins: ['react', 'jest', 'cypress'],
+  plugins: ['react', 'jest', 'cypress', 'prettier'],
   rules: {
+    'prettier/prettier': [
+      'error',
+      {
+        singleQuote: true,
+        trailingComma: 'es5',
+        semi: true,
+        endOfLine: 'auto',
+      },
+    ],
+    'arrow-body-style': 'off',
+    'prefer-arrow-callback': 'off',
     indent: ['error', 2],
-    'linebreak-style': ['error', 'unix'],
     quotes: ['error', 'single'],
     eqeqeq: 'error',
-    'no-trailing-spaces': 'error',
     'object-curly-spacing': ['error', 'always'],
     'arrow-spacing': ['error', { before: true, after: true }],
-    'no-console': 0,
+    'no-console': 1,
     'react/prop-types': 0,
-    'react/react-in-jsx-scope': 'off',
+    'react/react-in-jsx-scope': 0,
+    'linebreak-style': 0,
+    'react/jsx-filename-extension': [
+      1,
+      {
+        extensions: ['.js', '.jsx'],
+      },
+    ],
   },
   settings: {
     react: {
