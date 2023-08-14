@@ -116,7 +116,7 @@ const App = () => {
             </button>
           </p>
 
-          <Togglable buttonLabel='create new blog' ref={newBlogRef}>
+          <Togglable buttonLabel="new blog" ref={newBlogRef}>
             <Newblog createBlog={addBlog} />
           </Togglable>
           {blogs

@@ -22,36 +22,35 @@ const Newblog = ({ createBlog }) => {
       <h2> Create new </h2>
       <form onSubmit={submithandeler}>
         <div>
-          <label htmlFor='title'> Title</label>
+          <label htmlFor="title"> Title</label>
           <input
-            name='title'
-            id='title'
-            type='text'
+            name="title"
+            id="title"
+            type="text"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
           />
         </div>
         <div>
-          <label htmlFor='author'> Author</label>
+          <label htmlFor="author"> Author</label>
           <input
-            id='author'
-            type='text'
+            id="author"
+            type="text"
             value={author}
             onChange={(e) => setAuthor(e.target.value)}
           />
         </div>
         <div>
-          <label htmlFor='url'> Url</label>
+          <label htmlFor="url"> Url</label>
           <input
-            id='url'
-            type='text'
+            id="url"
+            type="text"
             value={url}
             onChange={(e) => setUrl(e.target.value)}
           />
         </div>
 
-        <button type='submit' id='createButton'>
-          {' '}
+        <button type="submit" id="createButton">
           Create
         </button>
       </form>
